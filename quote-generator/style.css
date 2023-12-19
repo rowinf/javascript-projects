@@ -33,23 +33,29 @@ article {
   background-color: rgba(255,255,255, 0.8);
 }
 
-blockquote {
+#quote {
+  opacity: 1;
   font-size: 3rem;
+  transition: opacity 1s ease-in;
 }
 
-blockquote > p, 
-#quote > * {
+#quote.htmx-swapping {
+  opacity: 0;
+}
+
+#quote.htmx-added {
+  opacity: 0;
+}
+
+#quote p, #quote blockquote {
   margin: 0.5rem;
+  font-style: italic;
+  font-size: 3rem;
 }
 
 #quote i {
   font-size: 4rem;
   margin-right: 1rem;
-}
-
-#quote > p {
-  font-style: italic;
-  font-size: 3rem;
 }
 
 .button-bar {
