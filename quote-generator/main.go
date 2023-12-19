@@ -58,10 +58,20 @@ func renderHTML(w http.ResponseWriter, data any) {
 		<!DOCTYPE html>
 		<html>
 		<head>
-			<title>Data Page</title>
+			<title>Quote Generator | Random</title>
 		</head>
 		<body>
-			<blockquote>{{.Quote}}<span>{{.Author}}</span></blockquote>
+			<article>
+        <section id="quote">
+          <blockquote>
+            <p>
+              <i class="fas fa-quote-left"></i>
+              {{.Quote}}
+            </p>
+          </blockquote>
+          <p>&mdash;{{.Author}}</p>
+        </section>
+      </article>
 		</body>
 		</html>
 	`
@@ -90,8 +100,16 @@ func rootHandler(w http.ResponseWriter, r *http.Request) {
 	http.ServeFile(w, r, "index.html")
 }
 
+func fileHandler(filename string) func(http.ResponseWriter, *http.Request) {
+	return func(w http.ResponseWriter, r *http.Request) {
+		http.ServeFile(w, r, filename)
+	}
+}
+
 func main() {
 	http.HandleFunc("/", rootHandler)
+	http.HandleFunc("/style.css", fileHandler("style.css"))
+	http.HandleFunc("/script.js", fileHandler("script.js"))
 	http.HandleFunc("/api/data", func(w http.ResponseWriter, r *http.Request) {
 		data := fetchRandomQuote()
 
@@ -104,5 +122,8 @@ func main() {
 	})
 
 	fmt.Println("Server is running on :3000")
-	http.ListenAndServe(":3000", nil)
+	err := http.ListenAndServe(":3000", nil)
+	if err != nil {
+		log.Fatal("Could not start server ", err)
+	}
 }

@@ -13,16 +13,30 @@
     <!-- Script -->
     <script src="script.js"></script>
     <article>
-      <blockquote>
-        <i class="fas fa-quote-left"></i>
-        <span id="quote-text">What you are is what you have been. What you&apos;ll be is what you do now.
-        <br>
-        <span>Buddha</span></span>
-      </blockquote>
-      <section>
+      <section id="quote">
+        <blockquote>
+          <p>
+            <i class="fas fa-quote-left"></i>
+            What you are is what you have been. What you&apos;ll be is what you do now.
+          </p>
+        </blockquote>
+        <p>&mdash;Buddha</p>
+      </section>
+      <section class="button-bar">
         <button class="twitter-button"><i class="fab fa-twitter"></i></button>
         <div></div>
-        <button type="button" type="button" hx-get="/api/data" hx-target="#quote-text"><i class="fa fa-share"></i> New Quote</button>
+        <div id="quote-indicator" class="loader htmx-indicator"></div>
+        <button 
+          type="button" 
+          type="button" 
+          hx-get="/api/data" 
+          hx-swap="innerHTML settle:1s" 
+          hx-target="#quote" 
+          hx-select="#quote" 
+          hx-headers='{"Accept": "text/html"}' 
+          hx-indicator="#quote-indicator">
+            <i class="fa fa-share"></i> New Quote
+        </button>
       </section>
     </article>
 </body>
