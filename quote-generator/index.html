@@ -7,16 +7,22 @@
     <link rel="icon" type="image/png" href="favicon.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.2/css/all.min.css"/>
     <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/htmx.org@1.9.9" integrity="sha384-QFjmbokDn2DjBjq+fM+8LUIVrAgqcNW2s0PjAxHETgRn9l4fvX31ZxDxvwQnyMOX" crossorigin="anonymous"></script>
 </head>
 <body>
     <!-- Script -->
     <script src="script.js"></script>
     <article>
-        <blockquote><i class="fas fa-quote-left"></i>What you are is what you have been. What you&apos;ll be is what you do now.<br><span>Buddha</span></blockquote>
+      <blockquote>
+        <i class="fas fa-quote-left"></i>
+        <span id="quote-text">What you are is what you have been. What you&apos;ll be is what you do now.
+        <br>
+        <span>Buddha</span></span>
+      </blockquote>
       <section>
-        <button class="twitter-button" type="button"><i class="fab fa-twitter"></i></button>
+        <button class="twitter-button"><i class="fab fa-twitter"></i></button>
         <div></div>
-        <button type="button"><i class="fa fa-share"></i> New Quote</button>
+        <button type="button" type="button" hx-get="/api/data" hx-target="#quote-text"><i class="fa fa-share"></i> New Quote</button>
       </section>
     </article>
 </body>

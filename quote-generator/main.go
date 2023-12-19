@@ -86,22 +86,23 @@ func renderHTML(w http.ResponseWriter, data any) {
 	}
 }
 
+func rootHandler(w http.ResponseWriter, r *http.Request) {
+	http.ServeFile(w, r, "index.html")
+}
+
 func main() {
+	http.HandleFunc("/", rootHandler)
 	http.HandleFunc("/api/data", func(w http.ResponseWriter, r *http.Request) {
 		data := fetchRandomQuote()
 
-		// Check the "Accept" header to determine the response format
 		acceptHeader := r.Header.Get("Accept")
 		if strings.Contains(acceptHeader, "text/html") {
-			// Respond with HTML
 			renderHTML(w, data[0])
 		} else {
-			// Respond with JSON
 			renderJSON(w, data[0])
 		}
 	})
 
-	// Start the HTTP server on port 8080
-	fmt.Println("Server is running on :8080")
-	http.ListenAndServe(":8080", nil)
+	fmt.Println("Server is running on :3000")
+	http.ListenAndServe(":3000", nil)
 }
