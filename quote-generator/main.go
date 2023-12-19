@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"log"
 	"net/http"
 	"strings"
 	"text/template"
@@ -68,6 +69,7 @@ func renderHTML(w http.ResponseWriter, data any) {
 	// Parse the HTML template
 	tmpl, err := template.New("html").Parse(htmlTemplate)
 	if err != nil {
+		log.Fatal(err)
 		http.Error(w, "Failed to parse HTML template", http.StatusInternalServerError)
 		return
 	}
@@ -78,6 +80,7 @@ func renderHTML(w http.ResponseWriter, data any) {
 	// Execute the template with the data and write the HTML response
 	err = tmpl.Execute(w, data)
 	if err != nil {
+		log.Fatal(err)
 		http.Error(w, "Failed to execute HTML template", http.StatusInternalServerError)
 		return
 	}
@@ -91,10 +94,10 @@ func main() {
 		acceptHeader := r.Header.Get("Accept")
 		if strings.Contains(acceptHeader, "text/html") {
 			// Respond with HTML
-			renderHTML(w, data)
+			renderHTML(w, data[0])
 		} else {
 			// Respond with JSON
-			renderJSON(w, data)
+			renderJSON(w, data[0])
 		}
 	})
 
