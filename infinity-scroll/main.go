@@ -1,8 +1,10 @@
 package main
 
 import (
+	"encoding/json"
 	"io"
 	"net/http"
+	"os"
 	"text/template"
 
 	"github.com/labstack/echo/v4"
@@ -16,27 +18,43 @@ func (t *Template) Render(w io.Writer, name string, data interface{}, c echo.Con
 	return t.templates.ExecuteTemplate(w, name, data)
 }
 
-func fileHandler(filename string) func(http.ResponseWriter, *http.Request) {
-	return func(w http.ResponseWriter, r *http.Request) {
-		http.ServeFile(w, r, filename)
-	}
-}
-
-type ImageType struct {
-	Url string
-}
-
 type PageData struct {
 	Title  string
-	Images []ImageType
+	Images []Image
+}
+
+// Image represents image data from Unsplash
+type Image struct {
+	Urls struct {
+		Small string `json:"small"`
+	} `json:"urls,omitempty"`
+	Caption string `json:"alt_description,omitempty"`
+}
+
+func fetchImages() ([]Image, error) {
+	unsplashAPI := "https://api.unsplash.com/photos"
+	accessKey := os.Getenv("UNSPLASH_API_KEY")
+	response, err := http.Get(unsplashAPI + "?client_id=" + accessKey)
+	if err != nil {
+		return nil, err
+	}
+	defer response.Body.Close()
+
+	var images []Image
+	err = json.NewDecoder(response.Body).Decode(&images)
+	if err != nil {
+		return nil, err
+	}
+
+	return images, nil
 }
 
 func indexHandler(c echo.Context) error {
-	images := []ImageType{
-		{"https://images.unsplash.com/photo-1702998033114-c01f9b2dea5b?q=80&w=365&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"},
-		{"https://images.unsplash.com/photo-1702998033114-c01f9b2dea5b?q=80&w=365&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"},
-		{"https://images.unsplash.com/photo-1702998033114-c01f9b2dea5b?q=80&w=365&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"},
+	images, uerr := fetchImages()
+	if uerr != nil {
+		c.Logger().Warn("couldn't fetch images", uerr)
 	}
+
 	pageData := PageData{"Page Title", images}
 
 	if err := c.Render(http.StatusOK, "index.html", pageData); err != nil {
@@ -49,6 +67,7 @@ func indexHandler(c echo.Context) error {
 func main() {
 	e := echo.New()
 	e.File("/style.css", "style.css")
+	e.File("/script.js", "script.js")
 	t := &Template{
 		templates: template.Must(template.ParseFiles("index.html")),
 	}
