@@ -33,6 +33,10 @@ type Image struct {
 	Links   struct {
 		Html string `json:"html"`
 	} `json:"links,omitempty"`
+	Width       int `json:"width"`
+	Height      int `json:"height"`
+	SmallHeight int
+	SmallWidth  int
 }
 
 func NewPageData(page string) PageData {
@@ -58,6 +62,12 @@ func fetchImages(pageData PageData) error {
 	err = json.NewDecoder(response.Body).Decode(&pageData.Images)
 	if err != nil {
 		return err
+	}
+	for i := 0; i < len(pageData.Images); i++ {
+		image := pageData.Images[i]
+		image.SmallWidth = 400
+		image.SmallHeight = image.SmallWidth * image.Height / image.Width
+		pageData.Images[i] = image
 	}
 
 	return nil
