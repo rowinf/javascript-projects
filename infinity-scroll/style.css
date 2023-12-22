@@ -49,3 +49,22 @@ h1 {
   margin-bottom: 1rem;
 }
 
+#loader {
+  display: grid;
+  place-items: center;
+  position: fixed;
+  top: 100%;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(255,255,255,0.4);
+  transition: opacity 100ms ease-in-out;
+}
+
+#loader.htmx-request {
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+

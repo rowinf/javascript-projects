@@ -6,7 +6,7 @@
     {{if eq (plus1 $i) (len $.Images)}}
       hx-get="/image-list?page={{$.ImagePage | plus1}}" 
       hx-trigger="revealed" 
-      hx-swap="afterend"
+      hx-swap="afterend settle:2s"
       hx-indicator="#loader"
     {{end}}
     >
