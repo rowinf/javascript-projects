@@ -16,8 +16,8 @@
   <div id="image-container" class="image-container">
     {{ template "image-list.html" . }}
   </div>
-
-    <div class="loader" id="loader" hidden>
+  <div class="htmx-indicator" id="loader">
+    <center>
       <div class="loadingio-spinner-reload-zu7c2g0kcll">
         <div class="ldio-fnfihfqterk">
           <div>
@@ -27,7 +27,9 @@
           </div>
         </div>
       </div>
-    </div>
+    </center>
+  </div>
+
 <style type="text/css">
 @keyframes ldio-fnfihfqterk { 0% { transform: rotate(0) } 100% { transform: rotate(360deg); } }
 .ldio-fnfihfqterk > div {
