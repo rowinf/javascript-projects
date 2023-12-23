@@ -63,8 +63,7 @@ func fetchImages(pageData PageData) error {
 	if err != nil {
 		return err
 	}
-	for i := 0; i < len(pageData.Images); i++ {
-		image := pageData.Images[i]
+	for i, image := range pageData.Images {
 		image.SmallWidth = 400
 		image.SmallHeight = image.SmallWidth * image.Height / image.Width
 		pageData.Images[i] = image
