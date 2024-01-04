@@ -2,3 +2,4 @@ quote-generator/quote-generator
 infinity-scroll/infinity-scroll
 *_templ.go
 .env
+joke-teller/joke-teller
