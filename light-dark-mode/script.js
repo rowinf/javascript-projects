@@ -30,6 +30,7 @@ function toggleImages(mode) {
 }
 
 function darkMode() {
+  document.documentElement.setAttribute("data-theme", "dark");
   toggleIconDark.removeAttribute("hidden");
   toggleIconLight.setAttribute("hidden", "");
   toggleImages("dark");
@@ -37,30 +38,31 @@ function darkMode() {
 }
 
 function lightMode() {
+  document.documentElement.setAttribute("data-theme", "light");
   toggleIconLight.removeAttribute("hidden");
   toggleIconDark.setAttribute("hidden", "");
   toggleImages("light");
   toggleStyles("light");
 }
 
-function switchTheme(event) {
-  const darkModeOn = event.target.checked;
-  const theme = darkModeOn ? "dark" : "light";
-  document.documentElement.setAttribute("data-theme", theme);
-  if (darkModeOn) darkMode();
-  else lightMode();
-}
-
-toggleSwitch.addEventListener("change", switchTheme);
-const mql = matchMedia("(prefers-color-scheme: dark)");
-
-mql.addEventListener("change", (e) => {
-  const darkModeOn = e.matches;
-  if (darkModeOn) {
+function toggle(isDark) {
+  if (isDark) {
     if (!toggleSwitch.checked) toggleSwitch.click();
     darkMode();
   } else {
-    if (toggleSwitch.checked) toggleSwitch.click();
+    if (toggleSwitch.checked) toggleSwitch.checked = false;
     lightMode();
   }
+}
+
+toggleSwitch.addEventListener("change", (event) => {
+  const darkModeOn = event.target.checked;
+  toggle(darkModeOn);
+});
+
+const mql = matchMedia("(prefers-color-scheme: dark)");
+toggle(mql.matches);
+mql.addEventListener("change", (e) => {
+  const darkModeOn = e.matches;
+  toggle(darkModeOn);
 });
