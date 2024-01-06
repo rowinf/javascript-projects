@@ -7,31 +7,60 @@ const image1 = document.getElementById("image1");
 const image2 = document.getElementById("image2");
 const image3 = document.getElementById("image3");
 
+function toggleStyles(mode) {
+  const disabledStyles = mode === "dark" ? "light" : "dark";
+  document
+    .querySelectorAll(`link[rel=stylesheet][href="/${disabledStyles}.css"]`)
+    .forEach((el) => {
+      el.media = "not all";
+      el.disabled = true;
+    });
+  document
+    .querySelectorAll(`link[rel=stylesheet][href="/${mode}.css"]`)
+    .forEach((el) => {
+      el.media = "all";
+      el.disabled = false;
+    });
+}
+
+function toggleImages(mode) {
+  image1.src = `img/undraw_proud_coder_${mode}.svg`;
+  image2.src = `img/undraw_feeling_proud_${mode}.svg`;
+  image3.src = `img/undraw_conceptual_idea_${mode}.svg`;
+}
+
 function darkMode() {
-  nav.style.backgroundColor = "rgb(0 0 0 / 50%)";
-  textBox.style.backgroundColor = "rgb(255 255 255 / 50%)";
-  toggleIconLight.setAttribute("hidden", "");
   toggleIconDark.removeAttribute("hidden");
-  image1.src = "img/undraw_proud_coder_dark.svg";
-  image2.src = "img/undraw_feeling_proud_dark.svg";
-  image3.src = "img/undraw_conceptual_idea_dark.svg";
+  toggleIconLight.setAttribute("hidden", "");
+  toggleImages("dark");
+  toggleStyles("dark");
 }
 
 function lightMode() {
-  nav.style.backgroundColor = "rgb(255 255 255 / 50%)";
-  textBox.style.backgroundColor = "rgb(0 0 0 / 50%)";
-  toggleIconDark.setAttribute("hidden", "");
   toggleIconLight.removeAttribute("hidden");
-  image1.src = "img/undraw_proud_coder_light.svg";
-  image2.src = "img/undraw_feeling_proud_light.svg";
-  image3.src = "img/undraw_conceptual_idea_light.svg";
+  toggleIconDark.setAttribute("hidden", "");
+  toggleImages("light");
+  toggleStyles("light");
 }
 
 function switchTheme(event) {
-  const attribute = event.target.checked ? "dark" : "light";
-  document.documentElement.setAttribute("data-theme", attribute);
-  if (attribute == "dark") darkMode();
+  const darkModeOn = event.target.checked;
+  const theme = darkModeOn ? "dark" : "light";
+  document.documentElement.setAttribute("data-theme", theme);
+  if (darkModeOn) darkMode();
   else lightMode();
 }
 
 toggleSwitch.addEventListener("change", switchTheme);
+const mql = matchMedia("(prefers-color-scheme: dark)");
+
+mql.addEventListener("change", (e) => {
+  const darkModeOn = e.matches;
+  if (darkModeOn) {
+    if (!toggleSwitch.checked) toggleSwitch.click();
+    darkMode();
+  } else {
+    if (toggleSwitch.checked) toggleSwitch.click();
+    lightMode();
+  }
+});
