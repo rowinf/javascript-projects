@@ -12,6 +12,10 @@
     <!-- Tailwind Library -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/creativetimofficial/tailwind-starter-kit/compiled-tailwind.min.css" />
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script defer src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script defer src="script.js"></script>
+    <script defer src="navbar.js"></script>
+    
 </head>
 <body class="text-gray-800 antialiased">
 
@@ -31,7 +35,7 @@
               </button>
           </div>
         <!-- Nav Right Side -->
-        <ul class="flex flex-col lg:flex-row list-none lg:ml-auto">
+        <ul class="flex flex-col lg:flex-row list-none lg:ml-auto" id="example-collapse-navbar">
           <!-- Social Media Button -->
           <li class="flex items-center">
             <a class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
@@ -739,23 +743,7 @@
     </div>
   </footer>
   <!-- End of Footer Section -->
-<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-<script>
-    AOS.init({
-      offset: 120, // offset (in px) from the original trigger point
-      delay: 60, // values from 0 to 3000, with step 50ms
-      duration: 400, // values from 0 to 3000, with step 50ms
-      easing: 'ease-in', // default easing for AOS animations
-      once: false, // whether animation should happen only once - while scrolling down
-      mirror: false, // whether elements should animate out while scrolling past them
-    });
-</script>
+
 </body>
-<!-- Navigation Script -->
-<script>
-  function toggleNavbar(collapseID) {
-    document.getElementById(collapseID).classList.toggle("hidden");
-    document.getElementById(collapseID).classList.toggle("block");
-  }
-</script>
+
 </html>
