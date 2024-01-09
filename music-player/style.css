@@ -37,7 +37,7 @@ body {
   width: 100%;
   object-fit: cover;
   border-radius: 20px;
-  box-shadow: 1px 5px 30px 5px rgba(0, 0, 0, .5);
+  box-shadow: 1px 5px 30px 5px rgba(0, 0, 0, 0.5);
 }
 
 h2 {
@@ -88,6 +88,19 @@ h3 {
 .player-controls button {
   border: none;
   color: rgb(129, 129, 129);
+  background: none;
+  padding: 0;
+}
+
+.player-controls button:hover {
+  filter: brightness(80%);
+  background: none;
+}
+
+.player-controls button:active {
+  filter: brightness(70%);
+  transform: translateY(2px);
+  background: none;
 }
 
 .main-button {
