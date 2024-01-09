@@ -1,4 +1,5 @@
 /* Images created by: https://unsplash.com/@pawel_czerwinski */
+@import url("https://fonts.googleapis.com/css2?family=Play:wght@400;700&display=swap");
 
 html {
   box-sizing: border-box;
@@ -8,22 +9,36 @@ body {
   margin: 0;
   min-height: 100vh;
   background: #c9ced3;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 
   font-size: 12px;
+  font-family: Play, sans-serif;
+  display: grid;
+  place-items: center;
 }
 
-
+.player-container {
+  height: 524px;
+  width: 400px;
+  background: #e7e7e7;
+  border-radius: 20px;
+  box-shadow: 0 15px 30px 5px rgba(0, 0, 0, 0.3);
+}
 
 .img-container {
-
+  height: 300px;
   position: relative;
   top: -50px;
-  left: 50px;
+  width: 80%;
+  left: 10%;
 }
 
+.img-container img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  border-radius: 20px;
+  box-shadow: 1px 5px 30px 5px rgba(0, 0, 0, .5);
+}
 
 h2 {
   font-size: 25px;
@@ -43,7 +58,7 @@ h3 {
   background: #fff;
   border-radius: 5px;
   cursor: pointer;
-  margin: 40px 20px;
+  margin: 32px 20px;
   height: 4px;
   width: 90%;
 }
@@ -66,20 +81,14 @@ h3 {
 
 /* Controls */
 .player-controls {
-  position: relative;
-  top: -15px;
-  left: 120px;
-  width: 200px;
+  display: flex;
+  justify-content: center;
 }
 
-.fas {
-  font-size: 30px;
+.player-controls button {
+  border: none;
   color: rgb(129, 129, 129);
-  margin-right: 30px;
-
 }
-
-
 
 .main-button {
   font-size: 40px;
@@ -87,12 +96,14 @@ h3 {
   top: 3px;
 }
 
+audio {
+  width: 100%;
+}
+
 /* Media Query: iPhone (Vertical) */
 @media screen and (max-width: 376px) {
-
-
-  .img-container {
-    left: 29px;
+  .player-container {
+    width: 95vw;
   }
 
   h2 {

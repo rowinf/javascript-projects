@@ -1,0 +1,15 @@
+{
+  "name": "music-player",
+  "version": "1.0.0",
+  "description": "",
+  "main": "script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "wds --open ./*"
+  },
+  "author": "rowinf",
+  "license": "MIT",
+  "devDependencies": {
+    "@web/dev-server": "^0.4.1"
+  }
+}
