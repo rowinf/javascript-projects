@@ -14,9 +14,22 @@
     </video>
     <div class="video-overlay"></div>
     <div class="container">
-      <div class="input-container" id="input-container" hidden>
+      <div class="input-container" id="input-container">
         <h1>Create a custom countdown!</h1>
-        <form class="form" id="countdownForm">
+        <form
+          class="form"
+          id="countdownForm"
+          _="on submit 
+          halt the event 
+          set local inputs to me as Values
+          make a Date from inputs.date called futureDate
+          set $countdownValue to futureDate.getTime()
+          set $cancel to false
+          add @hidden to #input-container
+          remove @hidden from #countdown
+          updateDOM()
+        "
+        >
           <label for="title">Title</label>
           <input
             type="text"
@@ -25,7 +38,14 @@
             placeholder="What are you counting down to?"
           />
           <label for="date-picker">Select a date</label>
-          <input type="date" name="date" id="date-picker" value="" />
+          <input
+            type="date"
+            name="date"
+            id="date-picker"
+            value=""
+            required
+            _="init make a Date called today set @min to today.toISOString().split('T')[0]"
+          />
           <button type="submit">Submit</button>
         </form>
       </div>
@@ -35,16 +55,47 @@
           <li><span>3</span>Days</li>
           <li><span>6</span>Hours</li>
           <li><span>52</span>Minutes</li>
-          <li><span>45</span>Seconds</li>
+          <li><span>31</span>Seconds</li>
         </ul>
-        <button type="countdown-button">Reset</button>
+        <button type="countdown-button" _="on click add @hidden to #countdown then remove @hidden from #input-container then set $cancel to true then set $countdownValue to getNow()">Reset</button>
       </div>
-      <div class="complete" id="complete">
+      <div class="complete" id="complete" hidden>
         <h1 class="complete-title">Countdown Complete!</h1>
         <h1 id="complete-info">Countdown Finished on 05-05-2023</h1>
-        <button type="button" id="complete-button">New Countdown</button>
+        <button type="button" id="complete-button" _="on click add @hidden to #complete then remove @hidden from #input-container">New Countdown</button>
       </div>
     </div>
-    <script src="script.js"></script>
+    <script src="https://unpkg.com/hyperscript.org@0.9.12"></script>
+    <script type="text/hyperscript">
+      js
+        function getNow() {
+          return Date.now()
+        }
+        return { getNow }
+      end
+    </script>
+    <script type="text/hyperscript">
+      def updateDOM()
+        set second to 1000
+        set minute to second * 60
+        set hour to minute * 60
+        set day to hour * 24
+        set local distance to $countdownValue - getNow()
+        if distance > 0
+          set days to Math.floor(distance / day)
+          set hours to Math.floor((distance mod day) / hour)
+          set minutes to Math.floor((distance mod hour) / minute)
+          set seconds to Math.floor((distance mod minute) / second)
+          set allLis to <li>span/>
+          put days into the first of allLis
+          put hours into the second of allLis
+          put minutes into the third of allLis
+          put seconds into the last of allLis
+          wait 1s then updateDOM()
+        else if not $cancel
+          add @hidden to #countdown
+          remove @hidden from #complete
+        end
+    </script>
   </body>
 </html>
