@@ -57,12 +57,23 @@
           <li><span>52</span>Minutes</li>
           <li><span>31</span>Seconds</li>
         </ul>
-        <button type="countdown-button" _="on click add @hidden to #countdown then remove @hidden from #input-container then set $cancel to true then set $countdownValue to getNow()">Reset</button>
+        <button
+          type="countdown-button"
+          _="on click add @hidden to #countdown then remove @hidden from #input-container then set $cancel to true then set $countdownValue to getNow()"
+        >
+          Reset
+        </button>
       </div>
       <div class="complete" id="complete" hidden>
         <h1 class="complete-title">Countdown Complete!</h1>
         <h1 id="complete-info">Countdown Finished on 05-05-2023</h1>
-        <button type="button" id="complete-button" _="on click add @hidden to #complete then remove @hidden from #input-container">New Countdown</button>
+        <button
+          type="button"
+          id="complete-button"
+          _="on click add @hidden to #complete then remove @hidden from #input-container"
+        >
+          New Countdown
+        </button>
       </div>
     </div>
     <script src="https://unpkg.com/hyperscript.org@0.9.12"></script>
