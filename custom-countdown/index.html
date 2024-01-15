@@ -25,7 +25,7 @@
           _="on submit 
           halt the event 
           localStorage.setItem('countdown', JSON.stringify(me as Values))
-          initializeCountdown(my.date.value)
+          initializeCountdown(my.date.value, my.title.value)
         "
         >
           <label for="title">Title</label>
@@ -97,10 +97,11 @@
           return inputs
         end
       end
-      def initializeCountdown(inputDate)
+      def initializeCountdown(inputDate, title)
         make a Date from inputDate called futureDate
         set $countdownValue to futureDate.getTime()
         set $cancel to false
+        put title into #countdown-title
         add @hidden to #input-container
         remove @hidden from #countdown
         updateDOM()
@@ -129,7 +130,7 @@
       end
       init loadLocal()
       set inputs to loadLocal()
-      if inputs then initializeCountdown(inputs.date)
+      if inputs then initializeCountdown(inputs.date, inputs.title)
     </script>
   </body>
 </html>
