@@ -14,20 +14,18 @@
     </video>
     <div class="video-overlay"></div>
     <div class="container">
-      <div class="input-container" id="input-container">
+      <div
+        class="input-container"
+        id="input-container"
+      >
         <h1>Create a custom countdown!</h1>
         <form
           class="form"
           id="countdownForm"
           _="on submit 
           halt the event 
-          set local inputs to me as Values
-          make a Date from inputs.date called futureDate
-          set $countdownValue to futureDate.getTime()
-          set $cancel to false
-          add @hidden to #input-container
-          remove @hidden from #countdown
-          updateDOM()
+          localStorage.setItem('countdown', JSON.stringify(me as Values))
+          initializeCountdown(my.date.value)
         "
         >
           <label for="title">Title</label>
@@ -59,7 +57,13 @@
         </ul>
         <button
           type="countdown-button"
-          _="on click add @hidden to #countdown then remove @hidden from #input-container then set $cancel to true then set $countdownValue to getNow()"
+          _="on click 
+            add @hidden to #countdown 
+            remove @hidden from #input-container 
+            set $cancel to true 
+            set $countdownValue to getNow()
+            localStorage.clear('countdown')
+          "
         >
           Reset
         </button>
@@ -86,6 +90,21 @@
       end
     </script>
     <script type="text/hyperscript">
+      def loadLocal()
+        set ctdn to localStorage.getItem('countdown')
+        if ctdn != null
+          set inputs to JSON.parse(localStorage.getItem('countdown'))
+          return inputs
+        end
+      end
+      def initializeCountdown(inputDate)
+        make a Date from inputDate called futureDate
+        set $countdownValue to futureDate.getTime()
+        set $cancel to false
+        add @hidden to #input-container
+        remove @hidden from #countdown
+        updateDOM()
+      end
       def updateDOM()
         set second to 1000
         set minute to second * 60
@@ -107,6 +126,10 @@
           add @hidden to #countdown
           remove @hidden from #complete
         end
+      end
+      init loadLocal()
+      set inputs to loadLocal()
+      if inputs then initializeCountdown(inputs.date)
     </script>
   </body>
 </html>
