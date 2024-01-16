@@ -1,15 +1,87 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Template</title>
-    <link rel="icon" type="image/png" href="favicon.png">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.2/css/all.min.css"/>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
+    <link rel="icon" type="image/png" href="favicon.png" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <h1>Add Bookmark</h1>
+    <div class="container" id="bookmarks-container">
+      <div class="item">
+        <span class="material-symbols-outlined close" id="delete-bookmark">
+          close
+        </span>
+        <div class="name">
+          <img src="favicon.png" alt="Favicon" />
+          <a href="https://jacinto.design" target="_blank">Jacinto Design</a>
+        </div>
+      </div>
+      <div class="item">
+        <span class="material-symbols-outlined close" id="delete-bookmark">
+          close
+        </span>
+        <div class="name">
+          <img src="favicon.png" alt="Favicon" />
+          <a href="https://jacinto.design" target="_blank">Jacinto Design</a>
+        </div>
+      </div>
+      <div class="item">
+        <span class="material-symbols-outlined close" id="delete-bookmark">
+          close
+        </span>
+        <div class="name">
+          <img src="favicon.png" alt="Favicon" />
+          <a href="https://jacinto.design" target="_blank">Jacinto Design</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-container show-modal" id="modal">
+      <div class="modal">
+        <span
+          class="material-symbols-outlined modal-close"
+          id="delete-bookmark"
+        >
+          close
+        </span>
+        <div class="modal-header">
+          <h3>Add Bookmark</h3>
+        </div>
+        <div class="modal-content">
+          <form id="bookmark-form">
+            <div class="form-group">
+              <label for="website-name" class="form-label">Website Name</label>
+              <input
+                type="text"
+                name="website-name"
+                value=""
+                class="form-input"
+                id="website-name"
+              />
+            </div>
+            <div class="form-group">
+              <label for="website-url" class="form-label">Website URL</label>
+              <input
+                type="text"
+                name="website-url"
+                value=""
+                class="form-input"
+                id="website-url"
+              />
+            </div>
+            <button type="submit">Save</button>
+          </form>
+        </div>
+      </div>
+    </div>
     <!-- Script -->
     <script src="script.js"></script>
-</body>
+  </body>
 </html>
