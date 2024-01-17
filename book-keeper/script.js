@@ -6,6 +6,8 @@ const modalShow = document.getElementById("show-modal");
 const modal = document.getElementById("modal");
 const modalClose = document.getElementById("close-modal");
 
+let bookmarks = [];
+
 function showModal() {
   modal.classList.add("show-modal");
   websiteNameEl.focus();
@@ -26,18 +28,79 @@ const validateUrl = (str) => {
   return str.match(urlRegex);
 };
 
-bookmarkForm.addEventListener("submit", (e) => {
+function buildBookmarks() {
+  bookmarksContainer.textContent = "";
+  bookmarks.forEach((bookmark) => {
+    const { name, url } = bookmark;
+    const item = document.createElement("div");
+    item.classList.add("item");
+    const closeIcon = document.createElement("span");
+    closeIcon.classList.add("material-symbols-outlined", "close");
+    closeIcon.setAttribute("title", "Delete Bookmark");
+    closeIcon.setAttribute("onclick", `deleteBookmark('${url}')`);
+    closeIcon.textContent = "close";
+    const linkInfo = document.createElement("div");
+    linkInfo.classList.add("name");
+    const favicon = document.createElement("img");
+    favicon.setAttribute(
+      "src",
+      `https://s2.googleusercontent.com/s2/favicons?domain=${url}`,
+    );
+    favicon.setAttribute("alt", "Favicon");
+    const link = document.createElement("a");
+    link.setAttribute("href", `${url}`);
+    link.setAttribute("target", "_blank");
+    link.textContent = name;
+    linkInfo.append(favicon, link);
+    item.append(closeIcon, linkInfo);
+    bookmarksContainer.appendChild(item);
+  });
+}
+
+function fetchBookmarks() {
+  if (localStorage.getItem("bookmarks")) {
+    bookmarks = JSON.parse(localStorage.getItem("bookmarks"));
+  } else {
+    bookmarks = [
+      {
+        name: "jacinto design",
+        url: "https://jacinto.design",
+      },
+    ];
+    localStorage.setItem("bookmarks", JSON.stringify(bookmarks));
+  }
+  buildBookmarks();
+}
+
+function deleteBookmark(url) {
+  bookmarks.forEach((bookmark, i) => {
+    if (bookmark.url === url) {
+      bookmarks.splice(i, 1);
+    }
+  });
+  localStorage.setItem("bookmarks", JSON.stringify(bookmarks));
+  fetchBookmarks();
+}
+
+function storeBookmark(e) {
   e.preventDefault();
   const nameValue = websiteNameEl.value;
   let urlValue = websiteUrlEl.value;
-  let invalidUrl = false;
   if (urlValue.search(/https?:\/\//) === -1) {
-    invalidUrl = !validateUrl(`https://${urlValue}`);
+    url = `https://${urlValue}`;
   } else {
-    invalidUrl = !validateUrl(urlValue);
+    url = urlValue;
   }
-  if (invalidUrl) {
-    alert("invalid url");
+  if (!validateUrl(url)) {
+    return false;
   }
-  console.log(nameValue, urlValue);
-});
+  const bookmark = { name: nameValue, url };
+  bookmarks.push(bookmark);
+  localStorage.setItem("bookmarks", JSON.stringify(bookmarks));
+  fetchBookmarks();
+  bookmarkForm.reset();
+  websiteNameEl.focus();
+}
+
+bookmarkForm.addEventListener("submit", storeBookmark);
+fetchBookmarks();
