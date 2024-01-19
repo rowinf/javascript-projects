@@ -21,23 +21,23 @@ window.addEventListener("click", (e) => {
   if (e.target.id === "modal") modal.classList.remove("show-modal");
 });
 
-const validateUrl = (str) => {
+function validateUrl(str) {
   const urlRegex = new RegExp(
     /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/,
   );
   return str.match(urlRegex);
-};
+}
 
-function buildBookmarks() {
+function buildBookmarks(bookmarks) {
   bookmarksContainer.textContent = "";
-  bookmarks.forEach((bookmark) => {
+  bookmarks.forEach((bookmark, i) => {
     const { name, url } = bookmark;
     const item = document.createElement("div");
     item.classList.add("item");
     const closeIcon = document.createElement("span");
     closeIcon.classList.add("material-symbols-outlined", "close");
     closeIcon.setAttribute("title", "Delete Bookmark");
-    closeIcon.setAttribute("onclick", `deleteBookmark('${url}')`);
+    closeIcon.setAttribute("onclick", `deleteBookmark('${i}')`);
     closeIcon.textContent = "close";
     const linkInfo = document.createElement("div");
     linkInfo.classList.add("name");
@@ -58,49 +58,51 @@ function buildBookmarks() {
 }
 
 function fetchBookmarks() {
-  if (localStorage.getItem("bookmarks")) {
-    bookmarks = JSON.parse(localStorage.getItem("bookmarks"));
-  } else {
-    bookmarks = [
-      {
-        name: "jacinto design",
-        url: "https://jacinto.design",
-      },
-    ];
-    localStorage.setItem("bookmarks", JSON.stringify(bookmarks));
-  }
-  buildBookmarks();
+  fetch("/bookmarks").then((res) => {
+    res.json().then((bookmarks) => {
+      buildBookmarks(bookmarks);
+    });
+  });
 }
 
-function deleteBookmark(url) {
-  bookmarks.forEach((bookmark, i) => {
-    if (bookmark.url === url) {
-      bookmarks.splice(i, 1);
-    }
+function deleteBookmark(index) {
+  fetch(`/bookmarks/${index}`, { method: "DELETE" }).then((res) => {
+    res.json().then((bookmarks) => {
+      buildBookmarks(bookmarks);
+      localStorage.setItem("bookmarks", JSON.stringify(bookmarks));
+    });
   });
-  localStorage.setItem("bookmarks", JSON.stringify(bookmarks));
-  fetchBookmarks();
 }
 
 function storeBookmark(e) {
   e.preventDefault();
   const nameValue = websiteNameEl.value;
-  let urlValue = websiteUrlEl.value;
-  if (urlValue.search(/https?:\/\//) === -1) {
-    url = `https://${urlValue}`;
-  } else {
-    url = urlValue;
-  }
+  const urlValue = websiteUrlEl.value;
+  const url =
+    urlValue.search(/https?:\/\//) === -1 ? `https://${urlValue}` : urlValue;
+
   if (!validateUrl(url)) {
     return false;
   }
   const bookmark = { name: nameValue, url };
   bookmarks.push(bookmark);
-  localStorage.setItem("bookmarks", JSON.stringify(bookmarks));
-  fetchBookmarks();
-  bookmarkForm.reset();
-  websiteNameEl.focus();
+  fetch("/bookmarks", { method: "POST", body: JSON.stringify(bookmark) }).then(
+    (res) => {
+      res.json().then((bookmarks) => {
+        localStorage.setItem("bookmarks", JSON.stringify(bookmarks));
+        bookmarkForm.reset();
+        websiteNameEl.focus();
+        buildBookmarks(bookmarks);
+      });
+    },
+  );
 }
 
-bookmarkForm.addEventListener("submit", storeBookmark);
-fetchBookmarks();
+/**
+ * initializePage
+ * called after msw has initialised the service worker
+ */
+function initializePage() {
+  bookmarkForm.addEventListener("submit", storeBookmark);
+  fetchBookmarks();
+}
