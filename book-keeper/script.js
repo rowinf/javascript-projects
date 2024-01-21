@@ -13,13 +13,10 @@ function showModal() {
   websiteNameEl.focus();
 }
 
-modalShow.addEventListener("click", showModal);
-modalClose.addEventListener("click", () =>
-  modal.classList.remove("show-modal"),
-);
-window.addEventListener("click", (e) => {
-  if (e.target.id === "modal") modal.classList.remove("show-modal");
-});
+function hideModal(e) {
+  if (e.target.id === "modal" || e.target.id === "close-modal")
+    modal.classList.remove("show-modal");
+}
 
 function validateUrl(str) {
   const urlRegex = new RegExp(
@@ -100,6 +97,7 @@ function storeBookmark(e) {
 
 /**
  * initializePage
+ *
  * called after msw has initialised the service worker
  */
 function initializePage() {

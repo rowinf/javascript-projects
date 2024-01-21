@@ -11,13 +11,17 @@
     />
     <link rel="stylesheet" href="style.css" />
   </head>
-  <body>
-    <h1 id="show-modal">Add Bookmark</h1>
+  <body onclick="hideModal(event)">
+    <h1 id="show-modal" onclick="showModal(event)">Add Bookmark</h1>
     <div class="container" id="bookmarks-container"></div>
 
     <div class="modal-container" id="modal">
       <div class="modal">
-        <span class="material-symbols-outlined modal-close" id="close-modal">
+        <span
+          class="material-symbols-outlined modal-close"
+          id="close-modal"
+          onclick="hideModal(event)"
+        >
           close
         </span>
         <div class="modal-header">
