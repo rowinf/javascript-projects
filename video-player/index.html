@@ -7,7 +7,7 @@
     <link rel="icon" type="image/png" href="favicon.png" />
     <link
       rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.2/css/all.min.css"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
     />
     <link rel="stylesheet" href="style.css" />
   </head>
@@ -31,6 +31,60 @@
         controls
         playsinline
       ></video>
+      <div class="show-controls">
+        <div class="controls-container">
+          <div class="progress-range" title="Seek">
+            <div class="progress-bar"></div>
+          </div>
+          <div class="control-group">
+            <div class="controls-left">
+              <div class="play-controls">
+                <span
+                  class="material-symbols-sharp"
+                  title="Play"
+                  id="play-btn"
+                  role="button"
+                >
+                  play_arrow
+                </span>
+              </div>
+              <div class="volume">
+                <div class="volume-icon">
+                  <span
+                    class="material-symbols-sharp"
+                    id="volume-icon"
+                    title="Mute"
+                  >
+                    volume_mute
+                  </span>
+                </div>
+                <div class="volume-range" title="Change volume">
+                  <div class="volume-bar"></div>
+                </div>
+              </div>
+            </div>
+            <div class="controls-right">
+              <div class="speed" title="Playback Rate">
+                <select name="playbackRate" class="player-speed">
+                  <option value="0.5">0.5 x</option>
+                  <option value="0.75">0.75 x</option>
+                  <option value="1">1 x</option>
+                  <option value="1.5">1.5 x</option>
+                  <option value="2">2 x</option>
+                </select>
+              </div>
+
+              <div class="time">
+                <span class="time-elapsed">00:00 / </span>
+                <span class="time-duration">2:38</span>
+              </div>
+              <div class="fullscreen">
+                <span class="material-symbols-sharp"> fullscreen </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- Script -->
